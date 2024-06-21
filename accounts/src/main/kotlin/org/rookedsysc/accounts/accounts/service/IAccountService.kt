@@ -1,7 +1,10 @@
 package org.rookedsysc.accounts.accounts.service
 
-import org.rookedsysc.accounts.accounts.dto.CustomerDto
+import org.rookedsysc.accounts.accounts.dto.CustomerRequestDto
+import org.rookedsysc.accounts.accounts.dto.CustomerResponseDto
 
 interface IAccountService {
-    fun createAccount(customerDto: CustomerDto)
+    fun createAccount(customerDto: CustomerRequestDto)
+
+    fun accountDetailByMobileNumber(mobileNumber: String) : CustomerResponseDto
 }
