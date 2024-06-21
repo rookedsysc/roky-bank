@@ -1,6 +1,6 @@
 create schema roky_bank;
 
-CREATE SEQUENCE customer_id_seq AS BIGINT;
+CREATE SEQUENCE roky_bank.customer_id_seq AS BIGINT;
 
 CREATE TABLE IF NOT EXISTS roky_bank.customer (
   customer_id BIGINT PRIMARY KEY DEFAULT nextval('customer_id_seq'),
