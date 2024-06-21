@@ -6,8 +6,8 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 
 @Entity
-@Table(name = "accounts")
-class Accounts(
+@Table(name = "account")
+class Account(
         @Column(name = "customer_id")
         var customerId: Long,
 

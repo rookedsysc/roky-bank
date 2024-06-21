@@ -1,6 +1,6 @@
 package org.rookedsysc.accounts.accounts.dto
 
-data class AccountsDto(
+data class AccountDto(
         val accountNumber: Long,
         val accountType: String,
         val branchAddress: String,
