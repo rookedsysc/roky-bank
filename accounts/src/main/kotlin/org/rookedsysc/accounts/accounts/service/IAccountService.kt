@@ -13,4 +13,6 @@ interface IAccountService {
     fun updateCustomer(request: CustomerUpdateRequestDto): Boolean
 
     fun updateAccount(request: AccountUpdateRequestDto): Boolean
+
+    fun deleteAccount(mobileNumber: String): Boolean
 }

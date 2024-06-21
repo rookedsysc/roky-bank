@@ -89,4 +89,17 @@ class AccountServiceImpl(
         return response
     }
 
+    override fun deleteAccount(mobileNumber: String): Boolean {
+        val customer: Customer = findByMobileNumOrThrow(mobileNumber)
+        accountRepository.deleteByCustomerId(customer.customerId!!)
+        customerRepository.delete(customer)
+        return true
+    }
+
+    private fun findByMobileNumOrThrow(mobileNumber: String): Customer {
+        val customer: Customer = customerRepository.findByMobileNumber(mobileNumber) ?: let {
+            throw ResourceNotFoundException(resourceName = "customer", fieldName = "mobileNumber", fieldValue = mobileNumber)
+        }
+        return customer
+    }
 }

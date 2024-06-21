@@ -9,13 +9,7 @@ import org.rookedsysc.accounts.accounts.dto.response.ResponseDto
 import org.rookedsysc.accounts.accounts.service.IAccountService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api")
@@ -42,5 +36,10 @@ class AccountController(private val accountService: IAccountService) {
     @PatchMapping("/customers")
     fun customerUpdate(@RequestBody updateRequestDto: CustomerUpdateRequestDto): ResponseEntity<Boolean> {
         return ResponseEntity.ok(accountService.updateCustomer(updateRequestDto))
+    }
+
+    @DeleteMapping("/accounts")
+    fun deleteAccount(@RequestParam mobileNumber: String): ResponseEntity<Boolean> {
+        return ResponseEntity.ok(accountService.deleteAccount(mobileNumber))
     }
 }
