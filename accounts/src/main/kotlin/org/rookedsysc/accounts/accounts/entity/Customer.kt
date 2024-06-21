@@ -9,7 +9,7 @@ class Customer(
         @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_generator")
         @SequenceGenerator(name = "customer_id_generator", sequenceName = "customer_id_seq", allocationSize = 1)
         @Column(name = "customer_id")
-        var customerId: Long,
+        var customerId: Long? = null,
 
         var name: String,
 
