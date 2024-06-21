@@ -1,6 +1,6 @@
-package org.rookedsysc.accounts.accounts.dto
+package org.rookedsysc.accounts.accounts.dto.response
 
-data class AccountDto(
+data class AccountResponseDto(
         val accountNumber: Long,
         val accountType: String,
         val branchAddress: String,

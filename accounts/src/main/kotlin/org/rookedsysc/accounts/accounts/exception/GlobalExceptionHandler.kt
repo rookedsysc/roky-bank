@@ -1,6 +1,6 @@
 package org.rookedsysc.accounts.accounts.exception
 
-import org.rookedsysc.accounts.accounts.dto.ErrorResponseDto
+import org.rookedsysc.accounts.accounts.dto.response.ErrorResponseDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -25,7 +25,7 @@ class GlobalExceptionHandler {
         return ResponseEntity(response, httpStatus)
     }
 
-    @ExceptionHandler(value = [ResourceNotFound::class])
+    @ExceptionHandler(value = [ResourceNotFoundException::class])
     fun handleResourceNotFoundException(e: CustomerAlreadyExistException, webRequest: WebRequest): ResponseEntity<ErrorResponseDto> {
         val httpStatus = HttpStatus.NOT_FOUND
         val response = ErrorResponseDto(

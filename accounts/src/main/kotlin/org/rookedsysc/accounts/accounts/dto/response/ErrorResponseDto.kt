@@ -1,4 +1,4 @@
-package org.rookedsysc.accounts.accounts.dto
+package org.rookedsysc.accounts.accounts.dto.response
 
 import org.springframework.http.HttpStatus
 import java.time.LocalDateTime

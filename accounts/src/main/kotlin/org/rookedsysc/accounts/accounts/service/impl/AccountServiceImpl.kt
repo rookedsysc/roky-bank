@@ -4,12 +4,14 @@ import jakarta.transaction.Transactional
 import org.rookedsysc.accounts.accounts.constants.AccountConstants
 import org.rookedsysc.accounts.accounts.converter.AccountConverter
 import org.rookedsysc.accounts.accounts.converter.CustomerConverter
-import org.rookedsysc.accounts.accounts.dto.CustomerRequestDto
-import org.rookedsysc.accounts.accounts.dto.CustomerResponseDto
+import org.rookedsysc.accounts.accounts.dto.request.AccountUpdateRequestDto
+import org.rookedsysc.accounts.accounts.dto.request.CustomerCreateRequestDto
+import org.rookedsysc.accounts.accounts.dto.request.CustomerUpdateRequestDto
+import org.rookedsysc.accounts.accounts.dto.response.CustomerResponseDto
 import org.rookedsysc.accounts.accounts.entity.Account
 import org.rookedsysc.accounts.accounts.entity.Customer
 import org.rookedsysc.accounts.accounts.exception.CustomerAlreadyExistException
-import org.rookedsysc.accounts.accounts.exception.ResourceNotFound
+import org.rookedsysc.accounts.accounts.exception.ResourceNotFoundException
 import org.rookedsysc.accounts.accounts.repository.AccountRepository
 import org.rookedsysc.accounts.accounts.repository.CustomerRepository
 import org.rookedsysc.accounts.accounts.service.IAccountService
@@ -22,7 +24,7 @@ class AccountServiceImpl(
         private val accountRepository: AccountRepository,
         private val customerRepository: CustomerRepository
 ) : IAccountService {
-    override fun createAccount(customerDto: CustomerRequestDto) {
+    override fun createAccount(customerDto: CustomerCreateRequestDto) {
         customerRepository.findByMobileNumber(customerDto.mobileNumber)
                 .let {
                     if (it != null) {
@@ -50,12 +52,41 @@ class AccountServiceImpl(
     }
 
     override fun accountDetailByMobileNumber(mobileNumber: String): CustomerResponseDto {
-        val customer: Customer = customerRepository.findByMobileNumber(mobileNumber)?: let {
-            throw ResourceNotFound(resourceName = "customer", fieldName = "mobileNumber", fieldValue = mobileNumber)
+        val customer: Customer = customerRepository.findByMobileNumber(mobileNumber) ?: let {
+            throw ResourceNotFoundException(resourceName = "customer", fieldName = "mobileNumber", fieldValue = mobileNumber)
         }
-        val account: Account = accountRepository.findByCustomerId(customer.customerId!!)?: let {
-            throw ResourceNotFound(resourceName = "account", fieldName = "customerId", fieldValue = customer.customerId.toString())
+        val account: Account = accountRepository.findByCustomerId(customer.customerId!!) ?: let {
+            throw ResourceNotFoundException(resourceName = "account", fieldName = "customerId", fieldValue = customer.customerId.toString())
         }
         return CustomerConverter.toResponse(customer, AccountConverter.toDto(account))
     }
+
+    override fun updateCustomer(request: CustomerUpdateRequestDto): Boolean {
+        var response = false
+        if (request.mobileNumber != null) {
+            val customer: Customer = customerRepository.findByMobileNumber(request.mobileNumber) ?: let {
+                throw ResourceNotFoundException(resourceName = "customer", fieldName = "mobileNumber", fieldValue = request.mobileNumber)
+            }
+            val updatedCustomer: Customer = CustomerConverter.update(customer, request)
+            customerRepository.save(updatedCustomer)
+            response = true
+        }
+
+        return response
+    }
+
+    override fun updateAccount(request: AccountUpdateRequestDto): Boolean {
+        var response = false
+        if (request.accountNumber != null) {
+            val account: Account = accountRepository.findByAccountNumber(request.accountNumber) ?: let {
+                throw ResourceNotFoundException(resourceName = "account", fieldName = "accountNumber", fieldValue = request.accountNumber.toString())
+            }
+            val updatedAccount: Account = AccountConverter.update(account, request)
+            accountRepository.save(updatedAccount)
+            response = true
+        }
+
+        return response
+    }
+
 }

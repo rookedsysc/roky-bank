@@ -1,12 +1,12 @@
 package org.rookedsysc.accounts.accounts.converter
 
-import org.rookedsysc.accounts.accounts.dto.AccountDto
+import org.rookedsysc.accounts.accounts.dto.request.AccountUpdateRequestDto
+import org.rookedsysc.accounts.accounts.dto.response.AccountResponseDto
 import org.rookedsysc.accounts.accounts.entity.Account
-import org.springframework.stereotype.Service
 
 class AccountConverter {
     companion object {
-        fun toEntity(accountDto: AccountDto, customerId: Long): Account {
+        fun toEntity(accountDto: AccountResponseDto, customerId: Long): Account {
             return Account(
                     customerId = customerId,
                     accountNumber = accountDto.accountNumber,
@@ -15,8 +15,15 @@ class AccountConverter {
             )
         }
 
-        fun toDto(account: Account): AccountDto {
-            return AccountDto(
+        fun update(account: Account, accountDto: AccountUpdateRequestDto): Account {
+            account.accountNumber = accountDto.accountNumber?: account.accountNumber
+            account.accountType = accountDto.accountType?: account.accountType
+            account.branchAddress = accountDto.branchAddress?: account.branchAddress
+            return account
+        }
+
+        fun toDto(account: Account): AccountResponseDto {
+            return AccountResponseDto(
                     accountNumber = account.accountNumber,
                     accountType = account.accountType,
                     branchAddress = account.branchAddress
