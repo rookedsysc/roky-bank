@@ -3,14 +3,15 @@ spring:
     show-sql: true
     properties:
       format_sql: true
-      default_schema: roky_bank
+      hibernate:
+        default_schema: roky_bank
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
       naming:
-        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     database: postgresql
   datasource:
-    url: jdbc:postgresql://192.168.1.2:5432/roky_bank
+    url: jdbc:postgresql://192.168.1.2:5432/postgres
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: df159357
