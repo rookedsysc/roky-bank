@@ -13,13 +13,29 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(value = [CustomerAlreadyExistException::class])
     fun handleCustomerAlreadyExistException(e: CustomerAlreadyExistException, webRequest: WebRequest): ResponseEntity<ErrorResponseDto> {
+        val httpStatus = HttpStatus.BAD_REQUEST
+
         val response = ErrorResponseDto(
                 apiPath = webRequest.getDescription(false)
                         .toString(),
-                errorCode = HttpStatus.BAD_REQUEST,
+                errorCode = httpStatus,
                 errorMsg = e.message.toString(),
                 errorTime = LocalDateTime.now()
         )
-        return ResponseEntity(response, HttpStatus.BAD_REQUEST)
+        return ResponseEntity(response, httpStatus)
     }
+
+    @ExceptionHandler(value = [ResourceNotFound::class])
+    fun handleResourceNotFoundException(e: CustomerAlreadyExistException, webRequest: WebRequest): ResponseEntity<ErrorResponseDto> {
+        val httpStatus = HttpStatus.NOT_FOUND
+        val response = ErrorResponseDto(
+                apiPath = webRequest.getDescription(false)
+                        .toString(),
+                errorCode = httpStatus,
+                errorMsg = e.message.toString(),
+                errorTime = LocalDateTime.now()
+        )
+        return ResponseEntity(response, httpStatus)
+    }
+
 }
