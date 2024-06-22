@@ -32,7 +32,6 @@ class AccountServiceImpl(
                     }
                 }
         val customer: Customer = CustomerConverter.toEntity(customerDto)
-        customer.createdBy = "Anonymous"
         val savedCustomer: Customer = customerRepository.save(customer)
         accountRepository.save(createAccount(savedCustomer.customerId!!))
     }
@@ -46,7 +45,6 @@ class AccountServiceImpl(
                 accountType = AccountConstants.SAVINGS,
                 branchAddress = AccountConstants.ADDRESS
         )
-        newAccount.createdBy = "Anonymous"
 
         return newAccount
     }
