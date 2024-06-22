@@ -7,7 +7,7 @@ import java.util.*
 @Component("auditAwareImpl")
 class AuditAwareImpl: AuditorAware<String> {
     override fun getCurrentAuditor(): Optional<String> {
-        val username = "SYSTEM"
+        val username = "ACCOUNTS_SYSTEM"
         return Optional.of(username)
     }
 }
