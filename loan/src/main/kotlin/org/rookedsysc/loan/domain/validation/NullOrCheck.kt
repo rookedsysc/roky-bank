@@ -1,4 +1,4 @@
-package org.rookedsysc.cards.domain.validation
+package org.rookedsysc.loan.domain.validation
 
 import jakarta.validation.*
 import jakarta.validation.constraints.*
