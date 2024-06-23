@@ -33,7 +33,7 @@ class GenericValidator : ConstraintValidator<NullOrCheck, Any?> {
             ValidationType.NAME -> validator.validate(NameCheck(value as String))
             ValidationType.MOBILE -> validator.validate(MobileCheck(value as String))
             ValidationType.POSITIVE -> validator.validate(PositiveCheck(value as Int))
-            ValidationType.POSITIVE_OR_ZERO -> validator.validate(value as Int)
+            ValidationType.POSITIVE_OR_ZERO -> validator.validate(PositiveOrZeroCheck(value as Int))
         }
 
         if (constraintViolations.isNotEmpty()) {
@@ -75,10 +75,6 @@ data class PositiveCheck(
 data class PositiveOrZeroCheck(
         @field:PositiveOrZero(message = "Amount used can not be negative")
         val amount: Int?
-)
-
-data class CardCheck(
-        val card: String?
 )
 
 enum class ValidationType {
