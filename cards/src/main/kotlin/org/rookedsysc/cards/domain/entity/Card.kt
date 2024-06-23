@@ -14,17 +14,17 @@ class Card(
         var mobileNumber: String,
 
         @Column(name = "card_number")
-        val cardNumber: String,
+        var cardNumber: String,
 
         @Column(name = "card_type")
-        val cardType: String,
+        var cardType: String,
 
         @Column(name = "total_limit")
-        val totalLimit: Int,
+        var totalLimit: Int,
 
         @Column(name = "amount_used")
-        val amountUsed: Int,
+        var amountUsed: Int,
 
         @Column(name = "available_amount")
-        val availableAmount: Int
+        var availableAmount: Int
 ) : BaseEntity()

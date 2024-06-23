@@ -1,9 +1,12 @@
 package org.rookedsysc.cards.application
 
+import org.rookedsysc.cards.application.converter.CardConverter
 import org.rookedsysc.cards.application.ifs.ICardQueryService
 import org.rookedsysc.cards.common.constants.CardConstants
 import org.rookedsysc.cards.common.exception.CardAlreadyExistsException
+import org.rookedsysc.cards.common.exception.ResourceNotFoundException
 import org.rookedsysc.cards.domain.entity.Card
+import org.rookedsysc.cards.infrastructure.dto.request.CardUpdateRequest
 import org.rookedsysc.cards.infrastructure.persistence.CardRepository
 import org.springframework.stereotype.Service
 import java.util.*
@@ -31,5 +34,14 @@ class CardQueryService(
                 availableAmount = CardConstants.NEW_CARD_LIMIT
         )
         return newCard
+    }
+
+    override fun update(request: CardUpdateRequest): Boolean {
+        val card: Card = cardRepository.findByCardNumber(request.cardNumber) ?: let {
+            throw ResourceNotFoundException("Card", "cardNumber", request.cardNumber)
+        }
+        val newCard = CardConverter.toEntity(cardUpdateRequest = request, card = card)
+        cardRepository.save(card)
+        return true
     }
 }

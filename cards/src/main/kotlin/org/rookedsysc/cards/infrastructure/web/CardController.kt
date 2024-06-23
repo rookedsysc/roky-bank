@@ -5,12 +5,10 @@ import jakarta.validation.constraints.Pattern
 import org.rookedsysc.cards.application.ifs.ICardQueryService
 import org.rookedsysc.cards.common.constants.CardConstants
 import org.rookedsysc.cards.domain.dto.ResponseDto
+import org.rookedsysc.cards.infrastructure.dto.request.CardUpdateRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/card")
@@ -31,4 +29,20 @@ class CardController(private val cardQueryService: ICardQueryService) {
                         )
                 )
     }
+
+    @PutMapping("/update")
+    fun updateCardDetails(@RequestBody dto: CardUpdateRequest): ResponseEntity<ResponseDto> {
+        val isUpdated: Boolean = cardQueryService.update(dto)
+        if (isUpdated) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body<ResponseDto>(ResponseDto(CardConstants.STATUS_200, CardConstants.MESSAGE_200))
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body<ResponseDto>(ResponseDto(CardConstants.STATUS_417, CardConstants.MESSAGE_417_UPDATE))
+        }
+    }
+
+
 }
