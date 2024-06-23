@@ -15,25 +15,25 @@ annotation class NullOrCheck(
         val payload: Array<KClass<out Payload>> = []
 )
 
-class GenericValidator : ConstraintValidator<NullOrCheck, String?> {
+class GenericValidator : ConstraintValidator<NullOrCheck, Any?> {
     private lateinit var type: ValidationType
 
     override fun initialize(constraintAnnotation: NullOrCheck) {
         this.type = constraintAnnotation.type
     }
 
-    override fun isValid(value: String?, context: ConstraintValidatorContext): Boolean {
+    override fun isValid(value: Any?, context: ConstraintValidatorContext): Boolean {
         if (value == null) return true
 
         val factory = Validation.buildDefaultValidatorFactory()
         val validator = factory.validator
 
         val constraintViolations = when (type) {
-            ValidationType.EMAIL -> validator.validate(EmailCheck(value))
-            ValidationType.NAME -> validator.validate(NameCheck(value))
-            ValidationType.MOBILE -> validator.validate(MobileCheck(value))
-            ValidationType.POSITIVE -> validator.validate(PositiveCheck(value.toInt()))
-            ValidationType.POSITIVE_OR_ZERO -> validator.validate(value.toInt())
+            ValidationType.EMAIL -> validator.validate(EmailCheck(value as String))
+            ValidationType.NAME -> validator.validate(NameCheck(value as String))
+            ValidationType.MOBILE -> validator.validate(MobileCheck(value as String))
+            ValidationType.POSITIVE -> validator.validate(PositiveCheck(value as Int))
+            ValidationType.POSITIVE_OR_ZERO -> validator.validate(value as Int)
         }
 
         if (constraintViolations.isNotEmpty()) {
