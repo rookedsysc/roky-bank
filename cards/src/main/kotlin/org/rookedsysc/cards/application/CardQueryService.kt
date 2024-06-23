@@ -46,4 +46,12 @@ class CardQueryService(
         cardRepository.save(card)
         return true
     }
+
+    override fun delete(mobileNumber: String): Boolean {
+        val card: Card = cardRepository.findByMobileNumber(mobileNumber) ?: let {
+            throw ResourceNotFoundException("Card", "mobileNumber", mobileNumber)
+        }
+        cardRepository.delete(card)
+        return true
+    }
 }

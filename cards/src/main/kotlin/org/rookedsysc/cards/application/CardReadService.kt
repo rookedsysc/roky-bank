@@ -11,13 +11,17 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class CardReadService (
+class CardReadService(
         private val cardRepository: CardRepository
 ) : ICardReadService {
     override fun cardDetailByMobileNumber(mobileNumber: String): CardResponse {
-        val card: Card = cardRepository.findByMobileNumber(mobileNumber) ?: let {
-            throw ResourceNotFoundException(resourceName = "card", fieldName = "mobileNumber", fieldValue = mobileNumber)
-        }
+        val card: Card = cardRepository.findByMobileNumber(mobileNumber)
+                .let { card ->
+                    if (card == null) {
+                        throw ResourceNotFoundException(resourceName = "card", fieldName = "mobileNumber", fieldValue = mobileNumber)
+                    }
+                    card
+                }
         return CardConverter.toResponse(card)
     }
 }
