@@ -5,4 +5,5 @@ import org.rookedsysc.cards.domain.entity.Card
 
 interface CardRepository : JpaRepository<Card, Long> {
     fun findByMobileNumber(mobileNumber: String): Card?
+    fun findByCardNumber(mobileNumber: String): Card?
 }
