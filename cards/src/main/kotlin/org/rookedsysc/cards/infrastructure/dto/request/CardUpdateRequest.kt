@@ -8,7 +8,7 @@ import org.rookedsysc.cards.domain.validation.ValidationType
 
 @Schema(name = "CardDto", description = "Card details")
 data class CardUpdateRequest (
-        @NullOrCheck(type = ValidationType.MOBILE, message = "Mobile number must be 10 digits")
+        @field:NullOrCheck(type = ValidationType.MOBILE, message = "Mobile number must be 10 digits")
         val mobileNumber: String?,
 
         @field:NotEmpty(message = "Card Number can not be a null or empty")
