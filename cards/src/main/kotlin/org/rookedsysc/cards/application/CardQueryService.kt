@@ -1,5 +1,6 @@
 package org.rookedsysc.cards.application
 
+import jakarta.transaction.Transactional
 import org.rookedsysc.cards.application.converter.CardConverter
 import org.rookedsysc.cards.application.ifs.ICardQueryService
 import org.rookedsysc.cards.common.constants.CardConstants
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
+@Transactional
 class CardQueryService(
         private val cardRepository: CardRepository
 ) : ICardQueryService {
