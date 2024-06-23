@@ -1,13 +1,13 @@
-package org.rookedsysc.accounts.accounts.audit
+package org.rookedsysc.cards.infrastructure.audit
 
 import org.springframework.data.domain.AuditorAware
 import org.springframework.stereotype.Component
 import java.util.*
 
 @Component("auditAwareImpl")
-class AuditAwareImpl: AuditorAware<String> {
+class AuditAwareImpl : AuditorAware<String> {
     override fun getCurrentAuditor(): Optional<String> {
-        val username = "ACCOUNTS_SYSTEM"
+        val username = "CARDS_SYSTEM"
         return Optional.of(username)
     }
 }
