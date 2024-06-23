@@ -14,17 +14,19 @@ class Loan(
         var mobileNumber: String,
 
         @Column(name = "loan_number")
-        val loanNumber: String,
+        var loanNumber: String,
 
         @Column(name = "loan_type")
-        val loanType: String,
+        var loanType: String,
 
         @Column(name = "total_loan")
-        val totalLoan: Int,
+        var totalLoan: Int,
 
         @Column(name = "amount_paid")
-        val amountPaid: Int,
+        var amountPaid: Int,
 
         @Column(name = "outstanding_amount")
         var outstandingAmount: Int
-) : BaseEntity()
+) : BaseEntity() {
+    protected constructor() : this(null, "", "", "", 0, 0, 0)
+}

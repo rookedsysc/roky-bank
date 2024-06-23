@@ -1,8 +1,12 @@
 package org.rookedsysc.loan.application
 
+import org.rookedsysc.loan.application.converter.LoanConverter
+import org.rookedsysc.loan.application.ifs.ILoanQueryService
 import org.rookedsysc.loan.common.constants.LoanConstants
 import org.rookedsysc.loan.common.exception.LoanAlreadyExistsException
+import org.rookedsysc.loan.common.exception.ResourceNotFoundException
 import org.rookedsysc.loan.domain.entity.Loan
+import org.rookedsysc.loan.infrastructure.dto.LoanUpdateRequest
 import org.rookedsysc.loan.infrastructure.persistence.LoanRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -10,8 +14,8 @@ import java.util.*
 
 @Service
 @Transactional
-class LoanQueryService(private val loanRepository: LoanRepository) {
-    fun create(mobileNumber: String) {
+class LoanQueryService(private val loanRepository: LoanRepository) : ILoanQueryService {
+    override fun create(mobileNumber: String) {
         loanRepository.findByMobileNumber(mobileNumber)
                 .let {
                     if (it != null) {
@@ -32,5 +36,26 @@ class LoanQueryService(private val loanRepository: LoanRepository) {
                 outstandingAmount = LoanConstants.NEW_LOAN_LIMIT
         )
         return newLoan
+    }
+
+    override fun update(request: LoanUpdateRequest) {
+        loanRepository.findByMobileNumber(request.mobileNumber!!)
+                .let {
+                    if (it == null) {
+                        throw ResourceNotFoundException("Loan", "mobileNumber", request.mobileNumber)
+                    }
+                    loanRepository.save(LoanConverter.updateLoan(request, it))
+                }
+    }
+
+    override fun delete(mobileNumber: String): Boolean {
+        loanRepository.findByMobileNumber(mobileNumber)
+                .let {
+                    if (it == null) {
+                        throw ResourceNotFoundException("Loan", "mobileNumber", mobileNumber)
+                    }
+                }
+        loanRepository.deleteByMobileNumber(mobileNumber)
+        return true
     }
 }

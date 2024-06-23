@@ -21,6 +21,9 @@ import java.time.LocalDateTime
 
 @RestControllerAdvice
 class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
+    companion object {
+        private val log = org.slf4j.LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
+    }
 
     override fun handleMethodArgumentNotValid(ex: MethodArgumentNotValidException, headers: HttpHeaders, status: HttpStatusCode, request: WebRequest): ResponseEntity<Any>? {
         val validationErrors = ex.bindingResult
@@ -44,6 +47,7 @@ class GlobalExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(value = [Exception::class])
     fun handleGlobalException(e: Exception, webRequest: WebRequest): ResponseEntity<ErrorResponseDto> {
+        log.error("Unknown error occurred\n", e)
         val httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
 
         val response = ErrorResponseDto(
