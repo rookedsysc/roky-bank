@@ -1,0 +1,5 @@
+## Docker Run 
+
+```bash
+docker build . -t roky-bank/accounts:v1 # 프로젝트 루트에서 실행
+```
