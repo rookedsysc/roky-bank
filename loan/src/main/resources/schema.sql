@@ -1,3 +1,5 @@
+create schema if not exists roky_bank;
+
 CREATE TABLE IF NOT EXISTS roky_bank.loan (
   loan_id BIGSERIAL PRIMARY KEY,
   mobile_number VARCHAR(15) NOT NULL,

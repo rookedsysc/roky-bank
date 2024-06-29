@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  accountdb:
+    image: postgres:latest
+    container_name: accountsdb
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: df159357
+  loandb:
+    image: postgres:latest
+    container_name: loansdb
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: df159357
+  carddb:
+    image: postgres:latest
+    container_name: cardsdb
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: df159357
+
+  account:
+    image: "rookedsysc/roky-bank-loan:accounts"
+    container_name: account-ms
+    ports:
+      - "8080:8080"
+
+  loan:
+    image: "rookedsysc/roky-bank-loan:loan"
+    container_name: loan-ms
+    ports:
+      - "8090:8090"
+
+  card:
+    image: "rookedsysc/roky-bank-loan:cards"
+    container_name: card-ms
+    ports:
+      - "9000:9000"
+
+networks:
+  roky-bank:
+    driver: "bridge"
